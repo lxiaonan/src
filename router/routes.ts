@@ -6,12 +6,13 @@ import CompetitionView from "../views/CompetitionView.vue";
 import QuestionDetail from "../views/QuestionDetail.vue";
 import QuestionCreation from "../views/QuestionCreation.vue";
 import UserLayout from "@/login/UserLayout.vue";
-import AboutView from "../views/AboutView.vue";
+import QuestionBankView from "../views/QuestionBankView.vue";
+import QuestionEditor from "../views/QuestionEditor.vue";
 import loginView from "@/login/loginView.vue";
 export const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
-    name: "题目列表",
+    name: "题库",
     component: QuestionList,
     children: [
       {
@@ -28,8 +29,27 @@ export const routes: Array<RouteRecordRaw> = [
   },
   {
     path: "/questionBank",
-    name: "题库",
-    component: AboutView,
+    name: "题库列表",
+    component: QuestionBankView,
+    meta: {
+      isAdmin: true,
+    },
+  },
+  {
+    path: "/questionDetail/:id",
+    name: "题目详情",
+    component: QuestionDetail,
+    meta: {
+      hideInMenu: true,
+    },
+  },
+  {
+    path: "/questionEditor/:id",
+    name: "修改题目",
+    component: QuestionEditor,
+    meta: {
+      hideInMenu: true,
+    },
   },
   {
     path: "/competition",
@@ -49,6 +69,7 @@ export const routes: Array<RouteRecordRaw> = [
       isAdmin: true,
     },
   },
+
   {
     path: "/user",
     name: "个人中心",

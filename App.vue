@@ -24,9 +24,16 @@ import { ref } from "vue";
 import BasicLayout from "@/layouts/BasicLayout.vue";
 import GlobalFooter from "./components/GlobalFooter.vue";
 import { useRouter } from "vue-router";
+import { useUserStore } from "./store";
 const router = useRouter();
 const isUserView = ref(false);
+const userStore = useUserStore();
 router.beforeEach((to, from, next) => {
+  if (to.path !== "/" && !to.path.startsWith("/user")) {
+    if (!userStore.loginUser || !userStore.loginUser.userRole) {
+      next({ path: "/user/login" });
+    }
+  }
   if (to.fullPath.startsWith("/user")) {
     isUserView.value = true;
   }
@@ -52,3 +59,4 @@ const _ = (window as any).ResizeObserver;
   }
 };
 </script>
+<style scoped lang="scss"></style>

@@ -1,3 +1,4 @@
+<style></style>
 <template>
   <Editor
     :value="props.value"

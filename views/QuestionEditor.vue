@@ -78,7 +78,7 @@
         </el-form-item>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="onCreate">创建题目</el-button>
+        <el-button type="primary" @click="onEditor">修改题目</el-button>
         <el-button @click="reset">重置</el-button>
       </el-form-item>
     </el-form>
@@ -88,16 +88,30 @@
 import MdEditor from "@/components/MdEditor.vue";
 import { ElMessage } from "element-plus";
 import {
-  JudgeConfig,
-  QuestionAddRequest,
   JudgeCase,
   QuestionControllerService,
+  Question,
+  QuestionUpdateRequest,
 } from "../../generated";
 import { ref, nextTick } from "vue";
 import { ElInput } from "element-plus";
 import router from "@/router";
+import { useRoute } from "vue-router";
+const route = useRoute();
+console.log("editor" + route.params.id);
+const getQuestion = async () => {
+  const id = route.params.id;
+  const res = await QuestionControllerService.getQuestionByIdUsingGet(id);
+  console.log(res.data);
+  const data: Question = res.data as Question;
+  form.value = data;
+  form.value.tags = JSON.parse(data.tags as string);
+  form.value.judgeConfig = JSON.parse(data.judgeConfig as string);
+  form.value.judgeCase = JSON.parse(data.judgeCase as string);
+};
+getQuestion();
 
-const onCreate = async () => {
+const onEditor = async () => {
   if (form.value.title === "") {
     ElMessage.error("题目标题长度需要在1到100位");
   }
@@ -115,13 +129,15 @@ const onCreate = async () => {
     ElMessage.error("题目内容长度需要在1到1000");
   }
   console.log(form.value);
-  const res = await QuestionControllerService.addQuestionUsingPost(form.value);
+  const res = await QuestionControllerService.updateQuestionUsingPost(
+    form.value
+  );
   if (res.code === 0) {
     ElMessage({
-      message: "题目创建成功.",
+      message: "题目修改成功.",
       type: "success",
     });
-    router.push("/");
+    router.push("/questionBank");
   } else {
     ElMessage.error(res.message);
   }
@@ -173,7 +189,7 @@ const handleInputConfirm = () => {
   inputValue.value = "";
 };
 
-const form = ref<QuestionAddRequest>({
+const form = ref<QuestionUpdateRequest>({
   title: "",
   tags: dynamicTags.value,
   content: "",
