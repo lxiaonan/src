@@ -1,59 +1,59 @@
 <template>
-  <div class="layout">
-    <div class="common-layout">
-      <el-container>
-        <el-header
-          ><div class="logo">
-            <img src="@/assets/logo2.png" />
-            <span>CodeReviewMaster</span>
-          </div></el-header
-        >
-        <el-main>
-          <div>
-            <CodeEditor
-              :value="codeValue"
-              :handle-change="onCodeChange"
-            ></CodeEditor>
-            <MdEditor :value="mdValue" :handle-change="onMdChange"></MdEditor>
+  <div class="discussion">
+    <el-row>
+      <el-col
+        v-for="(o, index) in 2"
+        :key="o"
+        :span="8"
+        :offset="index > 0 ? 2 : 0"
+      >
+        <el-card :body-style="{ padding: '0px' }">
+          <img
+            src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
+            class="image"
+          />
+          <div style="padding: 14px">
+            <span>Yummy hamburger</span>
+            <div class="bottom">
+              <time class="time">{{ currentDate }}</time>
+              <el-button text class="button">Operating</el-button>
+            </div>
           </div>
-        </el-main>
-      </el-container>
-    </div>
-    <a-layout> </a-layout>
+        </el-card>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
-<script setup lang="ts">
-import CodeEditor from "@/components/CodeEditor.vue";
-import MdEditor from "@/components/MdEditor.vue";
-import { useUserStore } from "@/store";
+<script lang="ts" setup>
 import { ref } from "vue";
 
-const userStore = useUserStore();
-userStore.getLoginUser();
-
-const mdValue = ref("");
-const onMdChange = (v: string) => {
-  mdValue.value = v;
-};
-const codeValue = ref("");
-const onCodeChange = (v: string) => {
-  codeValue.value = v;
-};
+const currentDate = ref(new Date());
 </script>
-
 <style scoped lang="scss">
-.logo {
-  img {
-    width: 38px;
-    height: 38px;
-    margin-right: 15px;
-  }
+.discussion {
+  background-color: #e9e9e9;
+}
+.time {
+  font-size: 12px;
+  color: #999;
+}
+
+.bottom {
+  margin-top: 13px;
+  line-height: 12px;
   display: flex;
+  justify-content: space-between;
   align-items: center;
 }
 
-.content {
-  min-height: 100vh;
+.button {
+  padding: 0;
+  min-height: auto;
+}
+
+.image {
+  width: 100%;
+  display: block;
 }
 </style>

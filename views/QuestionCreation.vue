@@ -36,6 +36,13 @@
           + 添加标签
         </el-button>
       </el-form-item>
+      <el-form-item label="题目难度">
+        <el-rate
+          v-model="form.rate"
+          :texts="['简单', '', '一般', '', '困难']"
+          show-text
+        />
+      </el-form-item>
       <el-form-item label="题目答案">
         <el-input v-model="form.answer" type="textarea" />
       </el-form-item>
@@ -177,6 +184,7 @@ const form = ref<QuestionAddRequest>({
   title: "",
   tags: dynamicTags.value,
   content: "",
+  rate: 1,
   answer: "",
   judgeCase: [
     {

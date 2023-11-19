@@ -14,11 +14,11 @@
     </el-form>
     <el-table :data="submitList" style="width: 100%">
       <el-table-column prop="id" label="Run ID" width="180" />
-      <el-table-column prop="userVO.userName" label="User" width="180" />
-      <el-table-column prop="questionId" label="Problem" width="180" />
-      <el-table-column prop="judgeInfo?.message" label="Result" width="180" />
-      <el-table-column prop="judgeInfo?.memory" label="Memory" width="120" />
-      <el-table-column prop="judgeInfo?.time" label="Time" width="120" />
+      <el-table-column prop="userVO.userName" label="User" width="120" />
+      <el-table-column prop="questionId" label="Problem" width="250" />
+      <el-table-column prop="judgeInfo.message" label="Result" width="180" />
+      <el-table-column prop="judgeInfo.memory" label="Memory" width="120" />
+      <el-table-column prop="judgeInfo.time" label="Time" width="120" />
       <el-table-column prop="language" label="Language" width="180" />
       <el-table-column prop="createTime" label="Submit Time" width="180" />
     </el-table>
@@ -26,7 +26,7 @@
       <el-pagination
         v-model:current-page="questionSubmitRequest.current"
         v-model:page-size="questionSubmitRequest.pageSize"
-        :page-sizes="[2, 10, 15, 30]"
+        :page-sizes="[5, 10, 15, 20]"
         layout="total, sizes, prev, pager, next, jumper"
         :total="(total as number)"
         @size-change="handleSizeChange"
@@ -52,6 +52,8 @@ const handleChange = async () => {
   submitList.value = questionSubmitStore.questionSubmitList;
 };
 handleChange();
+//定时器，10s执行一次
+const timer = setInterval(() => handleChange(), 10000);
 const total = ref<number>(
   parseInt(questionSubmitStore.questionSubmitTotal as string, 10)
 );

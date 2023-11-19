@@ -31,7 +31,7 @@
         <el-table :data="questionList" style="width: 100%">
           <el-table-column type="index" label="题号" width="180" />
           <el-table-column prop="title" label="标题" width="200" />
-          <el-table-column prop="tags" label="标签" width="380">
+          <el-table-column prop="tags" label="标签" width="250">
             <template #default="question"
               ><el-tag
                 class="ml-2"
@@ -42,7 +42,7 @@
               ></template
             >
           </el-table-column>
-          <el-table-column prop="passRate" label="提交通过率">
+          <el-table-column prop="passRate" label="提交通过率" width="200">
             <template #default="scope">
               <el-popover
                 effect="light"
@@ -73,6 +73,19 @@
               </el-popover>
             </template>
           </el-table-column>
+
+          <el-table-column label="难度">
+            <template #default="scope">
+              <el-rate
+                v-model="scope.row.rate"
+                :texts="['简单', '', '一般', '', '困难']"
+                disabled
+                show-text
+                text-color="#ff9900"
+                score-template="{value} points"
+              />
+            </template>
+          </el-table-column>
           <el-table-column fixed="right" label="操作" width="120">
             <template #default="item">
               <el-button
@@ -89,7 +102,7 @@
           <el-pagination
             v-model:current-page="questionRequest.current"
             v-model:page-size="questionRequest.pageSize"
-            :page-sizes="[2, 10, 15, 30]"
+            :page-sizes="[5, 10, 15, 20]"
             layout="total, sizes, prev, pager, next, jumper"
             :total="(total as number)"
             @size-change="handleSizeChange"
